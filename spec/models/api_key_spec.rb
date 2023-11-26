@@ -1,14 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe ApiKey, type: :model do
-  let!(:key) { "new key" }
+  let(:key) { "new key" }
   
 
   describe "#find_by" do
         subject { described_class.find_by(key: key) }
 
         context 'the location exists' do
-          let!(:api_key) { create(:api_key, key: key) }
+            before :each do
+                create(:api_key, key: key)
+            end
 
             it do
                 expect(subject.key).to eql(key)
@@ -16,7 +18,7 @@ RSpec.describe ApiKey, type: :model do
         end
 
         context 'the specified key does not exist' do
-            let!(:key) { "doesnotexist" }
+            let(:key) { "doesnotexist" }
 
             it do
                 expect(subject).to be_nil

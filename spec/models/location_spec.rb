@@ -1,16 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe Location, type: :model do
-    let!(:host) { "7.7.7.7" }
-    let!(:geolocation) { {"ip": "7.7.7.7", "hostname": "7.7.7.7",  "type": "ipv4"}.to_json }
-    let!(:location) { nil }
+    let(:host) { "7.7.7.7" }
+    let(:geolocation) { {"ip": "7.7.7.7", "hostname": "7.7.7.7",  "type": "ipv4"}.to_json }
+    let(:location) { nil }
 
     describe "#find" do
-        let!(:location_id) { location&.id }
+        let(:location_id) { location&.id }
         subject { described_class.find(location_id) }
 
         context 'the location exists' do
-            let!(:location) { create(:location, host: host, geolocation: geolocation) }
+            let(:location) { create(:location, host: host, geolocation: geolocation) }
 
             it do
                 location = subject
@@ -21,7 +21,7 @@ RSpec.describe Location, type: :model do
         end
 
         context 'the specified id does not exist' do
-            let!(:location_id) { nil }
+            let(:location_id) { nil }
 
             it do
                 expect{subject}.to raise_error(ActiveRecord::RecordNotFound)
@@ -44,7 +44,7 @@ RSpec.describe Location, type: :model do
         end
 
         context 'the specified host does not exist' do
-            let!(:host) { "doesnotexist.com" }
+            let(:host) { "doesnotexist.com" }
 
             it do
                 expect(subject).to be_nil
@@ -67,14 +67,14 @@ RSpec.describe Location, type: :model do
         end
 
         context 'host is nil' do
-            let!(:host) { nil }
+            let(:host) { nil }
             it do
                 expect(subject).not_to be_valid
             end
         end
 
         context 'geolocation is nil' do
-            let!(:geolocation) { nil }
+            let(:geolocation) { nil }
             it do
                 expect(subject).not_to be_valid
             end
@@ -82,7 +82,7 @@ RSpec.describe Location, type: :model do
     end
 
     describe "#destroy" do
-        let!(:location) { create(:location, host: host, geolocation: geolocation) }
+        let(:location) { create(:location, host: host, geolocation: geolocation) }
 
         subject { described_class.destroy(location.id) }
 
@@ -99,7 +99,7 @@ RSpec.describe Location, type: :model do
     end
   
     describe "#destroy_by" do
-        let!(:location) { create(:location, host: host, geolocation: geolocation) }
+        let(:location) { create(:location, host: host, geolocation: geolocation) }
 
         subject { described_class.destroy_by(host: host) }
 
