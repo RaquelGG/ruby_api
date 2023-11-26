@@ -1,4 +1,4 @@
-class ApiKeyCheckerService
+class ApiKeyChecker
     def initialize(key)
         @key = key
     end

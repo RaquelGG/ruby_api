@@ -6,7 +6,7 @@ class LocationsController < JSONAPI::ResourceController
     def check_api_key
         key = request.headers['ApiKey']
 
-        unless ApiKeyCheckerService.new(key).valid?
+        unless ApiKeyChecker.new(key).valid?
             unauthorized
         end
     end
