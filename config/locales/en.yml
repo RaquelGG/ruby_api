@@ -28,4 +28,13 @@
 #       enabled: "ON"
 
 en:
-  hello: "Hello world"
+  api_errors:
+    not_found: 
+      title: 'Not found'
+      detail: 'Could not fetch the geolocation. Host not found. Nothing was created'
+    unauthorized:
+      title: 'Unauthorized'
+      detail: 'Invalid api key'
+    forbidden:
+      title: 'Forbidden'
+      detail: 'Unsupported request to create a resource with a client-generated ID'

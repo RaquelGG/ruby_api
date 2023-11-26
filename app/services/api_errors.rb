@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 class ApiErrors
-    def self.not_found_content()
+    def self.not_found_content
         {
             'errors': [
                 {
                     'status': '404',
                     'code': '404',
-                    'title': 'Not found',
-                    'detail': 'Could not fetch the geolocation. Host not found',
+                    'title': I18n.t('api_errors.not_found.title'),
+                    'detail': I18n.t('api_errors.not_found.detail'),
                 }
             ]
         }
@@ -20,8 +20,8 @@ class ApiErrors
                 {
                     'status': '401',
                     'code': '401',
-                    'title': 'Unauthorized',
-                    'detail': 'Invalid api key',
+                    'title': I18n.t('api_errors.unauthorized.title'),
+                    'detail': I18n.t('api_errors.unauthorized.detail'),
                 }
             ] 
         }
@@ -33,8 +33,8 @@ class ApiErrors
                 {
                     'status': '403',
                     'code': '403',
-                    'title': 'Forbidden',
-                    'detail': 'Unsupported request to create a resource with a client-generated ID',
+                    'title': I18n.t('api_errors.forbidden.title'),
+                    'detail': I18n.t('api_errors.forbidden.detail'),
                 }
             ] 
         }
