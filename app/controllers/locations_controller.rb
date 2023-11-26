@@ -9,6 +9,9 @@ class LocationsController < ActionController::Base
         location = LocationStorage.store(host: host, geolocation: geolocation)
 
         serialize(location)
+
+    rescue Api::LocationResolver::HostNotFoundError
+        not_found_response
     end
 
     def show_by_host
@@ -31,7 +34,7 @@ class LocationsController < ActionController::Base
         key = request.headers['ApiKey']
 
         unless ApiKeyChecker.new(key).valid?
-            unauthorized
+            unauthorized_response
         end
     end
     
@@ -45,16 +48,29 @@ class LocationsController < ActionController::Base
         }
     end
 
-    def unauthorized
+    def not_found_response
         render json: { 
-                'errors': [
-                    {
-                        'status': '401',
-                        'code': '401',
-                        'title': 'Unauthorized',
-                        'detail': 'Invalid api key',
-                    }
-                ] 
-            }, status: :unauthorized
+            'errors': [
+                {
+                    'status': '404',
+                    'code': '404',
+                    'title': 'Not found',
+                    'detail': 'Could not fetch the geolocation. Host not found',
+                }
+            ] 
+        }, status: :not_found
+    end
+
+    def unauthorized_response
+        render json: { 
+            'errors': [
+                {
+                    'status': '401',
+                    'code': '401',
+                    'title': 'Unauthorized',
+                    'detail': 'Invalid api key',
+                }
+            ] 
+        }, status: :unauthorized
     end
 end

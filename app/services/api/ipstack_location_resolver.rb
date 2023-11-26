@@ -9,7 +9,7 @@ module Api
             request = JSON.parse(Net::HTTP.get(uri(host)))
 
             if request["success"] == false
-                raise Exception.new "Could not fetch the geolocation. Host not found"
+                raise HostNotFoundError
             end
 
             request
