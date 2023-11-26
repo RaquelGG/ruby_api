@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Location, type: :model do
     let!(:host) { "7.7.7.7" }
-    let!(:geolocation) { {"ip": "7.7.7.7", "hostname": "7.7.7.7",  "type": "ipv4"}.to_s }
+    let!(:geolocation) { {"ip": "7.7.7.7", "hostname": "7.7.7.7",  "type": "ipv4"}.to_json }
     let!(:location) { nil }
 
     describe "#find" do

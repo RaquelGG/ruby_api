@@ -38,7 +38,7 @@ FactoryBot.define do
           "asn": 25876,
           "isp": "Los Angeles Department of Water & Power"
         }
-      }.to_s
+      }.to_json
     }
   end
 end
