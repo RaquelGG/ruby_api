@@ -10,8 +10,7 @@ class LocationsController < ActionController::Base
             return
         end
 
-        geolocation = Api::LocationResolverFactory.create.fetch(host: host)
-        location = LocationStorage.store(host: host, geolocation: geolocation)
+        location = LocationStorage.store(host: host)
 
         render json: serialize(location), status: :created
 
@@ -38,7 +37,7 @@ class LocationsController < ActionController::Base
     def check_api_key
         key = request.headers['ApiKey']
 
-        unless ApiKeyChecker.new(key).valid?
+        unless ApiKeyChecker.valid?(key)
             render json: ApiErrors.unauthorized_content, status: :unauthorized
         end
     end

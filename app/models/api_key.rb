@@ -1,4 +1,3 @@
 class ApiKey < ApplicationRecord
-    validates_presence_of :key
-    validates :key, uniqueness: true
+    validates :key, uniqueness: true, presence: true
 end

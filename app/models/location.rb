@@ -1,4 +1,4 @@
 class Location < ApplicationRecord
-    validates_presence_of :host, :geolocation
-    validates :host, uniqueness: true
+    validates :host, uniqueness: true, presence: true
+    validates :geolocation, presence: true
 end
