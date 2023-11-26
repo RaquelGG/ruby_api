@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-RSpec.describe Api::IpstackLocationResolver do
+RSpec.describe Api::LocationResolverFactory do
     describe "#fetch" do
-        let!(:host) { nil }
+        let(:host) { nil }
         
-        subject { described_class.new.fetch(host: host) }
+        subject { described_class.create.fetch(host: host) }
 
         context "invalid ip address" do
-            let!(:host) { "a" }
+            let(:host) { "a" }
     
             it do
                 expect{subject}.to raise_error(Api::LocationResolver::HostNotFoundError)
@@ -15,8 +15,8 @@ RSpec.describe Api::IpstackLocationResolver do
         end
 
         context "fetches the geolocation by ip" do
-            let!(:host) { "8.8.8.8" }
-            let!(:valid_ip_address_response) do
+            let(:host) { "8.8.8.8" }
+            let(:valid_ip_address_response) do
                 {
                     "ip"=>"8.8.8.8",
                     "type"=>"ipv4",
@@ -49,8 +49,8 @@ RSpec.describe Api::IpstackLocationResolver do
         end
 
         context "fetches the geolocation by domain" do
-            let!(:host) { "google.com" }
-            let!(:valid_domain_response) do
+            let(:host) { "google.com" }
+            let(:valid_domain_response) do
                 {
                     "ip"=>"142.250.31.113",
                     "type"=>"ipv4",

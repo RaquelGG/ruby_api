@@ -3,14 +3,11 @@
 module Api
     class IpstackLocationResolver < LocationResolver
         URL = 'http://api.ipstack.com'
-        ACCESS_KEY = '70f38bd7b5f8c90a075e32d2cd267be0'
         
         def fetch(host:)
             request = JSON.parse(Net::HTTP.get(uri(host)))
 
-            if request["success"] == false
-                raise HostNotFoundError
-            end
+            raise HostNotFoundError unless request["success"]
 
             request
         end
@@ -18,7 +15,7 @@ module Api
         private
 
         def uri(host)
-            URI(URI.parse("#{URL}/#{host}?access_key=#{ACCESS_KEY}"))
+            URI(URI.parse("#{URL}/#{host}?access_key=#{ENV.fetch('IPSTACK_ACCESS_KEY', "")}"))
         end
     end
 end
