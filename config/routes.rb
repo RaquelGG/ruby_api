@@ -10,6 +10,6 @@ Rails.application.routes.draw do
 
   delete "locations/:host", to: "locations#destroy_by_host", as: :destroy_by_host, constraints: {host: /[a-zA-Z0-9_\.-]+/}
   get "locations/:host", to: "locations#show_by_host", as: :show_by_host, constraints: {host: /[a-zA-Z0-9_\.-]+/}
-  jsonapi_resources :locations, only: [:create]
+  jsonapi_resources :locations, only: [:create, :index]
   
 end
