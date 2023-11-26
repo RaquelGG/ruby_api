@@ -3,21 +3,14 @@
 module Api
     class TestLocationResolver < LocationResolver        
         def fetch(host:)
-            if host == "8.8.8.8"
-                return valid_ip_address
-            end
-            if host == "a"
-                return invalid_ip_address
-            end
-
+            return valid_ip_address if host == "8.8.8.8"
+                
+            raise HostNotFoundError if host == "a"
+                
             valid_url
         end
 
         private
-
-        def invalid_ip_address
-            {"success"=>false, "error"=>{"code"=>106, "type"=>"invalid_ip_address", "info"=>"The IP Address supplied is invalid."}}.to_json
-        end
 
         def valid_url
             {
@@ -43,7 +36,7 @@ module Api
                     "calling_code"=>"1",
                     "is_eu"=>false
                 }
-            }.to_json
+            }
         end
 
         def valid_ip_address
@@ -70,7 +63,7 @@ module Api
                     "calling_code"=>"1",
                     "is_eu"=>false
                 }
-            }.to_json
+            }
         end
     end
 end

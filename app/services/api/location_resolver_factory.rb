@@ -3,9 +3,8 @@ require 'net/http'
 module Api
     class LocationResolverFactory
         def self.create
-            if Rails.env.test?
-                return TestLocationResolver.new
-            end
+            return TestLocationResolver.new if Rails.env.test?
+                
             IpstackLocationResolver.new
         end
     end
