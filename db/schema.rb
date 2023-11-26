@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_26_111209) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_26_141450) do
+  create_table "api_keys", force: :cascade do |t|
+    t.string "key", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_api_keys_on_key", unique: true
+  end
+
   create_table "locations", force: :cascade do |t|
     t.string "host", null: false
     t.string "geolocation", null: false
