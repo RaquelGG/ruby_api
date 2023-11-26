@@ -5,23 +5,28 @@ class LocationsController < ActionController::Base
 
     @Override
     def create
+        if request.params.dig('data', 'attributes', 'id').present?
+            render json: ApiErrors.forbidden_content, status: :forbidden
+            return
+        end
+
         geolocation = Api::LocationResolverFactory.create.fetch(host: host)
         location = LocationStorage.store(host: host, geolocation: geolocation)
 
-        serialize(location)
+        render json: serialize(location), status: :created
 
     rescue Api::LocationResolver::HostNotFoundError
-        not_found_response
+        render json: ApiErrors.not_found_content, status: :not_found
     end
 
     def show_by_host
-        location = Location.find_by!(host: host)
-        serialize(location)
+        location = LocationStorage.get(host: host)
+        render json: serialize(location)
     end
 
     def destroy_by_host
-        location = Location.find_by!(host: host).destroy
-        serialize(location)
+        location = LocationStorage.destroy(host: host)
+        render json: serialize(location)
     end
 
     private
@@ -34,43 +39,16 @@ class LocationsController < ActionController::Base
         key = request.headers['ApiKey']
 
         unless ApiKeyChecker.new(key).valid?
-            unauthorized_response
+            render json: ApiErrors.unauthorized_content, status: :unauthorized
         end
     end
-    
 
     def serialize(location)
-        render json: { 
+        { 
             "data":
                 JSONAPI::ResourceSerializer.new(LocationResource)
                     .object_hash(LocationResource
                     .new(location, nil), nil)
         }
-    end
-
-    def not_found_response
-        render json: { 
-            'errors': [
-                {
-                    'status': '404',
-                    'code': '404',
-                    'title': 'Not found',
-                    'detail': 'Could not fetch the geolocation. Host not found',
-                }
-            ] 
-        }, status: :not_found
-    end
-
-    def unauthorized_response
-        render json: { 
-            'errors': [
-                {
-                    'status': '401',
-                    'code': '401',
-                    'title': 'Unauthorized',
-                    'detail': 'Invalid api key',
-                }
-            ] 
-        }, status: :unauthorized
     end
 end
