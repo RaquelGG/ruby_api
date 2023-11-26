@@ -8,5 +8,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
-  jsonapi_resources :locations, only: [:create, :destroy, :show]
+  delete "locations/:host", to: "locations#destroy_by_host", as: :destroy_by_host, constraints: {host: /[a-zA-Z0-9_\.-]+/}
+  get "locations/:host", to: "locations#show_by_host", as: :show_by_host, constraints: {host: /[a-zA-Z0-9_\.-]+/}
+  jsonapi_resources :locations, only: [:create]
+  
 end

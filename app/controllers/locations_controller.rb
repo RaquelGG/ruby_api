@@ -1,4 +1,6 @@
-class LocationsController < JSONAPI::ResourceController
+class LocationsController < ActionController::Base
+    include JSONAPI::ActsAsResourceController
+
     before_action :check_api_key
 
     @Override
@@ -6,13 +8,23 @@ class LocationsController < JSONAPI::ResourceController
         geolocation = Api::LocationResolverFactory.create.fetch(host: host)
         location = LocationStorage.store(host: host, geolocation: geolocation)
 
-        render json: serialize(location)
+        serialize(location)
+    end
+
+    def show_by_host
+        location = Location.find_by!(host: host)
+        serialize(location)
+    end
+
+    def destroy_by_host
+        location = Location.find_by!(host: host).destroy
+        serialize(location)
     end
 
     private
 
     def host
-        request.params['data']['attributes']['host']
+        request.params.dig('data', 'attributes', 'host') || request.params['host']
     end
 
     def check_api_key
@@ -25,10 +37,11 @@ class LocationsController < JSONAPI::ResourceController
     
 
     def serialize(location)
-        { "data":
-            JSONAPI::ResourceSerializer.new(LocationResource)
-                .object_hash(LocationResource
-                .new(location, nil), nil)
+        render json: { 
+            "data":
+                JSONAPI::ResourceSerializer.new(LocationResource)
+                    .object_hash(LocationResource
+                    .new(location, nil), nil)
         }
     end
 
