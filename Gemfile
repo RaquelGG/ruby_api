@@ -48,3 +48,5 @@ group :development do
   # gem "spring"
 end
 
+# Build APIs that are compliant with the JSON API specification.
+gem 'jsonapi-resources'
