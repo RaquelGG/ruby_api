@@ -59,6 +59,9 @@ USER rails:rails
 # Entrypoint prepares the database.
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
+# Set the environment variable
+ENV IPSTACK_ACCESS_KEY=YOUR_IPSTACK_ACESS_KEY
+
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
 CMD ["./bin/rails", "server", "--binding=0.0.0.0"]
