@@ -1,8 +1,8 @@
-# README
+# Ruby on Rails Geolocation by host API
 
-This RESTful API provides geolocation data from a host (an IP or URL). It fetches the geolocation data from a third party api ([ipstack.com](ipstack.com)).
+This RESTful API provides geolocation data from a host (an IP or URL). It fetches the geolocation data from a third party API ([ipstack.com](ipstack.com)).
 
-## To set up the api
+## To set up the API
 
 1. Go to [Dockerfile line 63](https://github.com/RaquelGG/ruby_api/blob/a7dd4b15e3040d6366c664cd8b50cc0c98618d69/Dockerfile#L63) and replace `YOUR_IPSTACK_ACESS_KEY` with your ipstack access key.
 2. Open a terminal inside the project, in the root folder, you should be able to see the docker_compose.yml file.
