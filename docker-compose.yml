@@ -1,7 +1,7 @@
 version: '3.4'
 
 services:
-  app:
+  ruby_api:
     build:
       context: .
       dockerfile: Dockerfile

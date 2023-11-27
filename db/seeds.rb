@@ -9,10 +9,10 @@
 #   end
 
 
-ApiKey.create!(key: "e0cf239d-65d4-45a6-b2f7-18400a620f74")
-ApiKey.create!(key: "32af3f39-5ec5-47b5-8d44-a96fb8ff01c0")
+ApiKey.find_or_create_by!(key: "e0cf239d-65d4-45a6-b2f7-18400a620f74")
+ApiKey.find_or_create_by!(key: "32af3f39-5ec5-47b5-8d44-a96fb8ff01c0")
 
-Location.create!(
+Location.find_or_create_by!(
                     host: "7.7.7.7", 
                     geolocation: {
                         "ip": "134.201.250.155",
