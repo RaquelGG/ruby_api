@@ -1,6 +1,19 @@
 # frozen_string_literal: true
 
 class ApiErrors
+    def self.not_found_on_creation_content
+        {
+            'errors': [
+                {
+                    'status': '404',
+                    'code': '404',
+                    'title': I18n.t('api_errors.not_found_on_creation.title'),
+                    'detail': I18n.t('api_errors.not_found_on_creation.detail'),
+                }
+            ]
+        }
+    end
+
     def self.not_found_content
         {
             'errors': [

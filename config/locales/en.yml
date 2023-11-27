@@ -29,9 +29,12 @@
 
 en:
   api_errors:
-    not_found: 
+    not_found_on_creation: 
       title: 'Not found'
       detail: 'Could not fetch the geolocation. Host not found. Nothing was created'
+    not_found: 
+      title: 'Not found'
+      detail: 'Host not found'
     unauthorized:
       title: 'Unauthorized'
       detail: 'Invalid api key'

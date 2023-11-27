@@ -15,17 +15,23 @@ class LocationsController < ActionController::Base
         render json: serialize(location), status: :created
 
     rescue Api::LocationResolver::HostNotFoundError
-        render json: ApiErrors.not_found_content, status: :not_found
+        render json: ApiErrors.not_found_on_creation_content, status: :not_found
     end
 
     def show_by_host
         location = LocationStorage.get(host: host)
         render json: serialize(location)
+
+    rescue ActiveRecord::RecordNotFound
+        render json: ApiErrors.not_found_content, status: :not_found
     end
 
     def destroy_by_host
         location = LocationStorage.destroy(host: host)
         render json: serialize(location)
+        
+    rescue ActiveRecord::RecordNotFound
+        render json: ApiErrors.not_found_content, status: :not_found
     end
 
     private
