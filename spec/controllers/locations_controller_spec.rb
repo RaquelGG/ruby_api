@@ -40,7 +40,6 @@ RSpec.describe LocationsController, type: :controller do
         it "returns a success response" do
             expect(response).to have_http_status(:created)
             expect(eql_hash?(JSON.parse(response.body), success_body_response)).to be(true)
-            expect(response.headers['Location'] = "/locations/#{location.id}")
             expect(Location.count).to eql(2)
         end
 
@@ -93,8 +92,8 @@ RSpec.describe LocationsController, type: :controller do
             end
         end
 
-        context "cannot obtain host from the remote api" do
-            let(:key) { "aa" }
+        context "the api key is not valid" do
+            let(:key) { "invalid api key" }
 
             it do
                 expect(response).to have_http_status(:unauthorized)
@@ -123,8 +122,8 @@ RSpec.describe LocationsController, type: :controller do
             end
         end
 
-        context "cannot obtain host from the remote api" do
-            let(:key) { "aa" }
+        context "the api key is not valid" do
+            let(:key) { "invalid api key" }
 
             it do
                 expect(response).to have_http_status(:unauthorized)
@@ -154,8 +153,8 @@ RSpec.describe LocationsController, type: :controller do
             end
         end
 
-        context "cannot obtain host from the remote api" do
-            let(:key) { "aa" }
+        context "the api key is not valid" do
+            let(:key) { "invalid api key" }
 
             it do
                 expect(response).to have_http_status(:unauthorized)
@@ -174,8 +173,8 @@ RSpec.describe LocationsController, type: :controller do
             expect(eql_hash?(JSON.parse(response.body), success_body_response)).to be(true)
         end
 
-        context "cannot obtain host from the remote api" do
-            let(:key) { "aa" }
+        context "the api key is not valid" do
+            let(:key) { "invalid api key" }
 
             it do
                 expect(response).to have_http_status(:unauthorized)
