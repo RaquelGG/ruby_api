@@ -7,8 +7,8 @@ module Api
         def fetch(host:)
             request = JSON.parse(Net::HTTP.get(uri(host)))
 
-            raise HostNotFoundError unless request["success"]
-
+            raise HostNotFoundError if request["success"] == false
+                
             request
         end
 
