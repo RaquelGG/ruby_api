@@ -40,10 +40,12 @@ RSpec.describe LocationsController, type: :controller do
         it "returns a success response" do
             expect(response).to have_http_status(:created)
             expect(eql_hash?(JSON.parse(response.body), success_body_response)).to be(true)
+            expect(response.headers['Location'] = "/locations/#{location.id}")
+            expect(Location.count).to eql(2)
         end
 
         
-        context "the attributes contain an id" do
+        context "the request contains an id" do
             let(:params) do 
                 {
                     "data": {
@@ -58,6 +60,19 @@ RSpec.describe LocationsController, type: :controller do
 
             it do
                 expect(response).to have_http_status(:forbidden)
+            end
+        end
+
+        context "the host already exists" do
+            let(:params) do 
+                {
+                    "data": {
+                        "type": "locations",
+                        "attributes": {
+                            "host": "#{location.host}"
+                        }
+                    }
+                } 
             end
         end
         
@@ -128,6 +143,7 @@ RSpec.describe LocationsController, type: :controller do
         it "returns a success response" do
             expect(response).to have_http_status(:success)
             expect(eql_hash?(JSON.parse(response.body), success_body_response)).to be(true)
+            expect(Location.count).to eql(0)
         end
 
         context "host does not exist" do
@@ -136,6 +152,26 @@ RSpec.describe LocationsController, type: :controller do
             it do
                 expect(response).to have_http_status(:not_found)
             end
+        end
+
+        context "cannot obtain host from the remote api" do
+            let(:key) { "aa" }
+
+            it do
+                expect(response).to have_http_status(:unauthorized)
+            end
+        end
+    end
+
+    describe "#index" do
+        before :each do
+            request.headers['ApiKey'] = key
+            get :index
+        end
+
+        it "returns a success response" do
+            expect(response).to have_http_status(:success)
+            expect(eql_hash?(JSON.parse(response.body), success_body_response)).to be(true)
         end
 
         context "cannot obtain host from the remote api" do
